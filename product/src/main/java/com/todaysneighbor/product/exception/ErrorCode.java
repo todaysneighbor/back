@@ -4,6 +4,7 @@ public enum ErrorCode {
 
     ENTITY_NOT_FOUND(700, "000", "대상을 찾을 수 없습니다."),
     DELETED_DATA(700,"000","삭제된 데이터 입니다"),
+    SOLD_PRODUCT(700,"000","판매된 데이터 입니다"),
     INVALID_INPUT_VALUE(700, "000", "데이터 입력을 확인해주세요."),
     CATEGORY_NOT_FOUND(700, "000", "해당 카테고리를 찾을 수 없습니다."),
     AUTH_TIME_OUT(701, "001", "토큰이 만료 되었습니다."),
