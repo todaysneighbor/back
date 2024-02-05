@@ -2,6 +2,8 @@ package com.todaysneighbor.product.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 
@@ -29,7 +31,7 @@ public class Product {
     @Column(nullable = false)
     private String content;
     @Column
-    private Integer sellPrice;
+    private Integer price;
     @Column
     private String filename;
 
@@ -38,13 +40,17 @@ public class Product {
     @Column(nullable = false)
     private Integer viewCount;
     @Column
+    private Integer wishCount = 0;
+
+    @Column
+    @CreatedDate
     private LocalDateTime createdAt;
     @Column
+    @LastModifiedDate
     private LocalDateTime refreshedAt;
+
     @Column
     private Boolean isDeleted;
-    @Column
-    private Integer wishCount = 0;
 
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private TradeStatus tradeStatus;
