@@ -10,4 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductRegistrationRequest {
+    private int price;
+    private String filename;
+    private String title;
+    private String content;
+    private String area;
 }
