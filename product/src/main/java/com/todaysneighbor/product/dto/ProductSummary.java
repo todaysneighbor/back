@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductListResponse {
+public class ProductSummary {
     private long productId;
     private int price;
     private String filename;
@@ -24,8 +24,8 @@ public class ProductListResponse {
     private LocalDateTime refreshedAt;
     private int state = 0;
 
-    public static ProductListResponse of(Product product) {
-        return ProductListResponse.builder()
+    public static ProductSummary of(Product product) {
+        return ProductSummary.builder()
                 .productId(product.getId())
                 .price(product.getPrice())
                 .filename(product.getFilename())

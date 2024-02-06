@@ -38,7 +38,7 @@ public class Product {
     @Column
     private Boolean isSold;
     @Column(nullable = false)
-    private Integer viewCount;
+    private Integer viewCount = 0;
     @Column
     private Integer wishCount = 0;
 
