@@ -22,6 +22,7 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public ProductDetailResponse findProduct(Long productId) {
+        log.debug("service -> productId:"+productId);
         Product product = findByIdNotDeleted(productId);
         isValidProduct(product);
         return ProductDetailResponse.of(product);
@@ -55,7 +56,7 @@ public class ProductService {
     @Transactional(readOnly = true)
     public Product findByIdNotDeleted(Long id) {
         return productRepository.findById(id)
-                .filter(this::isDeleted)
+                .filter(product -> !isDeleted(product))
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.ENTITY_NOT_FOUND));
     }
 
@@ -63,6 +64,7 @@ public class ProductService {
     //등록
     @Transactional
     public Long createProduct(ProductCreateRequest request, Long userId) {
+        log.debug("create 시작");
         Product product = ProductCreateRequest.toEntity(request, userId);
         return productRepository.save(product).getId();
     }
