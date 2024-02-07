@@ -2,6 +2,11 @@ package com.todaysneighbor.product.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
@@ -13,6 +18,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @ToString
+@DynamicInsert
+@EntityListeners(AuditingEntityListener.class)
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,22 +36,30 @@ public class Product {
     @Column(nullable = false)
     private String content;
     @Column
-    private Integer sellPrice;
+    private Integer price;
     @Column
     private String filename;
 
     @Column
-    private Boolean isSold;
-    @Column(nullable = false)
+    @ColumnDefault("0")
     private Integer viewCount;
     @Column
+    @ColumnDefault("0")
+    private Integer wishCount;
+
+    @Column
+    @CreatedDate
     private LocalDateTime createdAt;
     @Column
+    @LastModifiedDate
     private LocalDateTime refreshedAt;
+
     @Column
+    @ColumnDefault("false")
+    private Boolean isSold;
+    @Column
+    @ColumnDefault("false")
     private Boolean isDeleted;
-    @Column
-    private Integer wishCount = 0;
 
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private TradeStatus tradeStatus;

@@ -12,28 +12,26 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductDetailResponse {
+public class ProductSummary {
     private long productId;
     private int price;
     private String filename;
     private int viewCount;
     private int wishCount;
     private String title;
-    private String content;
     private String area;
     private LocalDateTime createdAt;
     private LocalDateTime refreshedAt;
-    private int state;
+    private int state = 0;
 
-    public static ProductDetailResponse of(Product product) {
-        return ProductDetailResponse.builder()
+    public static ProductSummary of(Product product) {
+        return ProductSummary.builder()
                 .productId(product.getId())
                 .price(product.getPrice())
                 .filename(product.getFilename())
                 .viewCount(product.getViewCount())
                 .wishCount(product.getWishCount())
                 .title(product.getTitle())
-                .content(product.getContent())
                 .createdAt(product.getCreatedAt())
                 .refreshedAt(product.getRefreshedAt())
                 .area("임시 주소")
