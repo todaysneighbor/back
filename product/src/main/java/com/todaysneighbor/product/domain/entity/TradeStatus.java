@@ -2,11 +2,12 @@ package com.todaysneighbor.product.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "product")
+@Table(name = "trade_status")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -17,11 +18,11 @@ public class TradeStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
-    private Long productId;
+
     @Column
     private Long buyerId;
     @Column
+    @CreatedDate
     private LocalDateTime tradeDate;
 
     @OneToOne(fetch = FetchType.LAZY)

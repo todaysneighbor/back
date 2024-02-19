@@ -1,6 +1,7 @@
 package com.todaysneighbor.product.service;
 
 import com.todaysneighbor.product.domain.entity.Product;
+import com.todaysneighbor.product.domain.entity.TradeStatus;
 import com.todaysneighbor.product.domain.repository.ProductRepository;
 import com.todaysneighbor.product.dto.*;
 import com.todaysneighbor.product.exception.ErrorCode;
@@ -22,7 +23,7 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public ProductDetailResponse findProduct(Long productId) {
-        log.debug("service -> productId:"+productId);
+        log.debug("service -> productId:" + productId);
         Product product = findByIdNotDeleted(productId);
         isValidProduct(product);
         return ProductDetailResponse.of(product);
@@ -44,20 +45,6 @@ public class ProductService {
                 .filter(product -> !product.getIsDeleted())
                 .map(ProductSummary::of)
                 .toList();
-    }
-
-
-    @Transactional(readOnly = true)
-    public Product findById(Long id) {
-        return productRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.ENTITY_NOT_FOUND));
-    }
-
-    @Transactional(readOnly = true)
-    public Product findByIdNotDeleted(Long id) {
-        return productRepository.findById(id)
-                .filter(product -> !isDeleted(product))
-                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.ENTITY_NOT_FOUND));
     }
 
 
@@ -96,7 +83,30 @@ public class ProductService {
         productRepository.save(product);
     }
 
-    //팔린 상품, 삭제된 상품인지 검사
+    @Transactional
+    public void tradeComplete(TradeCompleteRequest request, Long productId) {
+        Product product = findById(productId);
+        isValidProduct(product);
+        product.setTradeStatus(TradeStatus.builder()
+                .buyerId(request.getBuyerId())
+                .build());
+
+    }
+
+    @Transactional(readOnly = true)
+    public Product findById(Long id) {
+        return productRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.ENTITY_NOT_FOUND));
+    }
+
+    @Transactional(readOnly = true)
+    public Product findByIdNotDeleted(Long id) {
+        return productRepository.findById(id)
+                .filter(product -> !isDeleted(product))
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.ENTITY_NOT_FOUND));
+    }
+
+    //팔린 상품, 삭제된 상품인지 검사 후 Exception
     private void isValidProduct(Product product) {
         if (isDeleted(product)) {
             throw new EntityNotFoundException(ErrorCode.DELETED_DATA);
