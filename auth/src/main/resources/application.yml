@@ -40,6 +40,10 @@ spring:
     token:
       secret-key: ${SECRET_KEY}
     access-token:
-      expire-length: 86400 #하루
+      expire-length: 86400000 #하루
     refresh-token:
-      expire-length: 2592000 #한 달
+      expire-length: 2592000000 #한 달
+
+logging:
+  level:
+    com.todaysneighbor.auth: DEBUG
