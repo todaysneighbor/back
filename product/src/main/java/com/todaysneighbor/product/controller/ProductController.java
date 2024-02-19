@@ -64,11 +64,12 @@ public class ProductController {
         return ResponseEntity.noContent().build();
 
     }
-//
-//    @PostMapping(value = "/complete/{productId}")
-//    ResponseEntity<String> tradeComplete(@PathVariable Long productId){
-//
-//    }
+
+    @PostMapping(value = "/trade")
+    ResponseEntity<String> tradeComplete(@RequestBody TradeCompleteRequest request){
+        productService.tradeComplete(request);
+        return ResponseEntity.noContent().build();
+    }
 //
 //    @PostMapping(value = "/{productId}/wish")
 //    ResponseEntity<String> wishProductRegistration(@PathVariable Long productId){

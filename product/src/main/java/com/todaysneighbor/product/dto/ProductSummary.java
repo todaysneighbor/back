@@ -23,6 +23,7 @@ public class ProductSummary {
     private LocalDateTime createdAt;
     private LocalDateTime refreshedAt;
     private int state = 0;
+    private Boolean isSold;
 
     public static ProductSummary of(Product product) {
         return ProductSummary.builder()
@@ -35,6 +36,7 @@ public class ProductSummary {
                 .createdAt(product.getCreatedAt())
                 .refreshedAt(product.getRefreshedAt())
                 .area("임시 주소")
+                .isSold(product.getIsSold())
                 .build();
     }
 }
