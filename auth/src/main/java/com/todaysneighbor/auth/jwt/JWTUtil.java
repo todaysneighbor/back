@@ -65,11 +65,11 @@ public class JWTUtil {
         return refreshToken;
     }
 
-    //userId 추출
+    // userId 추출
     public Long getUserId(String token) {
-        String userId = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().get("userId", String.class);
+        Long userId = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().get("userId", Long.class);
         log.info("userId 추출 완료 : {}", userId);
-        return Long.parseLong(userId);
+        return userId;
     }
 
     //Nickname 추출
