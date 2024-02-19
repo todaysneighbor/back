@@ -23,7 +23,7 @@ public class ProductDetailResponse {
     private String area;
     private LocalDateTime createdAt;
     private LocalDateTime refreshedAt;
-    private int state;
+    private Boolean isSold;
 
     public static ProductDetailResponse of(Product product) {
         return ProductDetailResponse.builder()
@@ -37,6 +37,7 @@ public class ProductDetailResponse {
                 .createdAt(product.getCreatedAt())
                 .refreshedAt(product.getRefreshedAt())
                 .area("임시 주소")
+                .isSold(product.getIsSold())
                 .build();
     }
 }

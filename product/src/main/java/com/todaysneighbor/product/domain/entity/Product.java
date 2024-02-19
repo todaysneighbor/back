@@ -61,6 +61,4 @@ public class Product {
     @ColumnDefault("false")
     private Boolean isDeleted;
 
-    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private TradeStatus tradeStatus;
 }

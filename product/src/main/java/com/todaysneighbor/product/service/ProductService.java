@@ -1,7 +1,6 @@
 package com.todaysneighbor.product.service;
 
 import com.todaysneighbor.product.domain.entity.Product;
-import com.todaysneighbor.product.domain.entity.TradeStatus;
 import com.todaysneighbor.product.domain.repository.ProductRepository;
 import com.todaysneighbor.product.dto.*;
 import com.todaysneighbor.product.exception.ErrorCode;
@@ -84,13 +83,12 @@ public class ProductService {
     }
 
     @Transactional
-    public void tradeComplete(TradeCompleteRequest request, Long productId) {
-        Product product = findById(productId);
+    public void tradeComplete(TradeCompleteRequest request) {
+        Product product = findById(request.getProductId());
         isValidProduct(product);
-        product.setTradeStatus(TradeStatus.builder()
-                .buyerId(request.getBuyerId())
-                .build());
-
+        product.setIsSold(true);
+        productRepository.save(product);
+        //TODO: 로그 찍기 필요
     }
 
     @Transactional(readOnly = true)
