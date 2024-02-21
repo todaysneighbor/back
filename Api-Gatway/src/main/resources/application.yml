@@ -1,56 +1,57 @@
 server:
   port: 8080
 
+logging:
+  level:
+    org:
+      springframework:
+        cloud:
+          gateway: debug
 spring:
   cloud:
     gateway:
       routes:
-        - id: auth-service
-          uri: http://localhost:8081
+        - id: auth
+          uri: http://localhost:8081/
           predicates:
             - Path=/auth/**
-            - Path-/oauth2/**
+            - Path=/oauth2/**
 
-        - id: user-service
-          uri: http://localhost:8082
+        - id: user
+          uri: http://localhost:8082/
           predicates:
             - Path=/user/**
 
-        - id: product-service
-          uri: http://localhost:8083
+        - id: product
+          uri: http://127.0.0.1:8083/
           predicates:
             - Path=/product/**
 
-        - id: chatting-service
-          uri: http://localhost:8084
-#          filters:
-#            - AuthFilter
+        - id: chatting
+          uri: http://localhost:8084/
+          #          filters:
+          #            - AuthFilter
           predicates:
             - Path=/chatting/**
 
-        - id: recommend-service
-          uri: http://localhost:8085
+        - id: recommend
+          uri: http://localhost:8085/
           predicates:
             - Path=/recommend/**
 
-        - id: notification-service
-          uri: http://localhost:8086
+        - id: notification
+          uri: http://localhost:8086/
           predicates:
             - Path=/notification/**
 
-        - id: image-service
-          uri: http://localhost:8087
-#          filters:
-#            - AuthFilter
+        - id: image
+          uri: http://localhost:8087/
+          #          filters:
+          #            - AuthFilter
           predicates:
             - Path=/image/**
 
-        - id: config-service
-          uri: http://localhost:8089
+        - id: config
+          uri: http://localhost:8089/
           predicates:
-            - Path=/thank/**
-
-        - id: eureka-service
-          uri: http://localhost:8761
-          predicates:
-            - Path=/thank/**
+            - Path=/config/**
