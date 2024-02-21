@@ -1,0 +1,57 @@
+server:
+  port: 8080
+
+logging:
+  level:
+    org:
+      springframework:
+        cloud:
+          gateway: debug
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: auth
+          uri: http://localhost:8081/
+          predicates:
+            - Path=/auth/**
+            - Path=/oauth2/**
+
+        - id: user
+          uri: http://localhost:8082/
+          predicates:
+            - Path=/user/**
+
+        - id: product
+          uri: http://127.0.0.1:8083/
+          predicates:
+            - Path=/product/**
+
+        - id: chatting
+          uri: http://localhost:8084/
+          #          filters:
+          #            - AuthFilter
+          predicates:
+            - Path=/chatting/**
+
+        - id: recommend
+          uri: http://localhost:8085/
+          predicates:
+            - Path=/recommend/**
+
+        - id: notification
+          uri: http://localhost:8086/
+          predicates:
+            - Path=/notification/**
+
+        - id: image
+          uri: http://localhost:8087/
+          #          filters:
+          #            - AuthFilter
+          predicates:
+            - Path=/image/**
+
+        - id: config
+          uri: http://localhost:8089/
+          predicates:
+            - Path=/config/**
