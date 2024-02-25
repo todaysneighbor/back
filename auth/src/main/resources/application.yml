@@ -4,7 +4,7 @@ spring:
   profiles:
     active: default
   config:
-    import: ${Server}
+    import: ${SPRING_CONFIG_IMPORT}
 
 management:
   endpoints:
