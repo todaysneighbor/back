@@ -8,4 +8,5 @@ import java.util.Optional;
 
 public interface WishRepository extends JpaRepository<Wish, Long> {
     Optional<List<Wish>> findAllByUserIdAndIsDeletedIsFalse(Long userId);
+    Optional<Wish> findByUserIdAndProductId(Long userId, Long productId);
 }

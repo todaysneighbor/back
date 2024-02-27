@@ -3,6 +3,7 @@ package com.todaysneighbor.product.service;
 import com.todaysneighbor.product.domain.entity.Product;
 import com.todaysneighbor.product.domain.entity.Wish;
 import com.todaysneighbor.product.domain.repository.ProductRepository;
+import com.todaysneighbor.product.domain.repository.WishRepository;
 import com.todaysneighbor.product.dto.*;
 import com.todaysneighbor.product.exception.ErrorCode;
 import com.todaysneighbor.product.exception.business.BusinessException;
@@ -12,15 +13,19 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Array;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class ProductService {
     private final ProductRepository productRepository;
+    private final WishRepository wishRepository;
 
     @Transactional(readOnly = true)
     public ProductDetailResponse findProduct(Long productId) {
@@ -106,6 +111,27 @@ public class ProductService {
                 wishList -> wishList.add(wish),
                 () -> product.setWish(Collections.singletonList(wish))
         );
+        productRepository.save(product);
+    }
+
+    @Transactional
+    public void wishDelete(Long productId, Long userId) {
+        Wish wish = wishRepository.findByUserIdAndProductId(userId, productId)
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.ENTITY_NOT_FOUND));
+        wish.setIsDeleted(true);
+        wishRepository.save(wish);
+    }
+
+    @Transactional
+    public List<ProductSummary> getWishListByUser(Long userId) {
+        return wishRepository.findAllByUserIdAndIsDeletedIsFalse(userId)
+                .orElse(Collections.emptyList())
+                .stream()
+                .map(wish -> productRepository.findById(wish.getProductId()))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .map(ProductSummary::of)
+                .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)

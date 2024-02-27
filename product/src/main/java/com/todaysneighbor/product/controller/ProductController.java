@@ -57,34 +57,45 @@ public class ProductController {
     }
 
     @DeleteMapping(value = "/{productId}")
-    ResponseEntity<Void> delete(@PathVariable Long productId){
-        String token="";
-        Long userId=1L;
+    ResponseEntity<Void> delete(@PathVariable Long productId) {
+        String token = "";
+        Long userId = 1L;
         productService.delete(productId, userId);
         return ResponseEntity.noContent().build();
 
     }
 
     @PostMapping(value = "/trade")
-    ResponseEntity<String> tradeComplete(@RequestBody TradeCompleteRequest request){
+    ResponseEntity<String> tradeComplete(@RequestBody TradeCompleteRequest request) {
         productService.tradeComplete(request);
         return ResponseEntity.noContent().build();
     }
-//
-//    @PostMapping(value = "/{productId}/wish")
-//    ResponseEntity<String> wishProductRegistration(@PathVariable Long productId){
-//
-//    }
-//
-//    @PatchMapping(value = "/{productId}/wish")
-//    ResponseEntity<String> wishProductDelete(@PathVariable Long productId){
-//
-//    }
-//
+
+    @PostMapping(value = "/{productId}/wish")
+        //토큰 로직 필요
+    ResponseEntity<String> wishRegister(@PathVariable Long productId) {
+        Long userId = 1L;
+        productService.wishRegister(productId, userId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping(value = "/{productId}/wish")
+    ResponseEntity<String> wishDelete(@PathVariable Long productId) {
+        Long userId = 1L;
+        productService.wishDelete(productId, userId);
+        return ResponseEntity.noContent().build();
+    }
+
 //    @GetMapping
-//    ResponseEntity<ProductSearchResultResponse> searchProduct(@RequestParam String keyword, @RequestParam String category){
+//    ResponseEntity<ProductSummary> searchProduct(@RequestParam String keyword, @RequestParam String category){
 //
 //    }
+
+    @GetMapping
+    ResponseEntity<List<ProductSummary>> getWishListByUser() {
+        Long userId = 1L;
+        return ResponseEntity.status(HttpStatus.OK).body(productService.getWishListByUser(userId));
+    }
 
 
 }
