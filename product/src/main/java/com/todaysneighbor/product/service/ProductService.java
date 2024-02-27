@@ -1,6 +1,7 @@
 package com.todaysneighbor.product.service;
 
 import com.todaysneighbor.product.domain.entity.Product;
+import com.todaysneighbor.product.domain.entity.Wish;
 import com.todaysneighbor.product.domain.repository.ProductRepository;
 import com.todaysneighbor.product.dto.*;
 import com.todaysneighbor.product.exception.ErrorCode;
@@ -11,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -89,6 +91,21 @@ public class ProductService {
         product.setIsSold(true);
         productRepository.save(product);
         //TODO: 로그 찍기 필요
+    }
+
+    @Transactional
+    public void wishRegister(Long productId, Long userId) {
+        Product product = findById(productId);
+        isValidProduct(product);
+        Wish wish = Wish.builder()
+                .userId(userId)
+                .productId(productId)
+                .build();
+        Optional<List<Wish>> list = Optional.ofNullable(product.getWish());
+        list.ifPresentOrElse(
+                wishList -> wishList.add(wish),
+                () -> product.setWish(Collections.singletonList(wish))
+        );
     }
 
     @Transactional(readOnly = true)
