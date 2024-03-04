@@ -1,0 +1,23 @@
+server:
+  port: 8888
+spring:
+  application:
+    name : config
+  cloud:
+    config:
+      server:
+        git:
+          default-label: main
+          uri: ${Git}
+          ignoreLocalSshSettings: true
+          privateKey: ${Key}
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    shutdown:
+      enabled: true

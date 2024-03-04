@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: auth
+  profiles:
+    active: default
+  config:
+    import: ${SPRING_CONFIG_IMPORT}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
