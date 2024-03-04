@@ -1,12 +1,13 @@
-server:
-  port: 8761
-
-eureka:
-  instance:
-    hostname: 127.0.0.1
-  client:
-    register-with-eureka: false
-    fetch-registry: false
 spring:
   application:
-    name: eureka-server
+    name: service-discovery
+  profiles:
+    active: default
+  config:
+    import: ${SPRING_CONFIG_IMPORT}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
